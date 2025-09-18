@@ -1,0 +1,21 @@
+# Step 1: Install YOLO 
+!pip install ultralytics 
+# Step 2: Import libraries 
+from ultralytics import YOLO 
+import cv2 
+import matplotlib.pyplot as plt 
+from google.colab import files 
+# Step 3: Load pre-trained YOLO model 
+model = YOLO("yolov8n.pt") # nano model, fast and small 
+# Step 4: Upload an image 
+uploaded = files.upload() 
+image_path = list(uploaded.keys())[0] 
+print("Uploaded:", image_path) 
+# Step 5: Run YOLO detection 
+results = model(image_path) 
+# Step 6: Get annotated image 
+annotated_frame = results[0].plot() 
+# Step 7: Show image 
+plt.imshow(cv2.cvtColor(annotated_frame, cv2.COLOR_BGR2RGB)) 
+plt.axis("off") 
+plt.show()
