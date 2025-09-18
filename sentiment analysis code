@@ -1,0 +1,16 @@
+import nltk 
+nltk.download('punkt') 
+from textblob import TextBlob 
+review = input("Enter your review: ").strip() #Ask user to enter a review 
+if review: #Check if the input is not empty 
+analysis = TextBlob(review) 
+polarity = analysis.sentiment.polarity 
+if polarity > 0.1: #Determine sentiment 
+sentiment = "Positive" 
+elif polarity < -0.05: 
+sentiment = "Negative" 
+else: 
+sentiment = "Neutral" 
+print(f"\nYour Review: \"{review}\"\nSentiment: {sentiment}") 
+else: 
+print("You didn't enter any review!")
