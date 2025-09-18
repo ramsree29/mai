@@ -1,0 +1,33 @@
+import matplotlib.pyplot as plt 
+import numpy as np 
+from sklearn import datasets, svm, metrics 
+from sklearn.model_selection import train_test_split 
+# Use raw string or forward slashes to avoid path issues 
+file_path = r"C:/Users/3BSCAI64/Downloads/ocr/optdigits.tra" 
+# Load the data with NumPy (it's a comma-separated file) 
+digits_data = np.loadtxt(file_path, delimiter=',') 
+# 2. Explore the data 
+print("Image shape:", digits.images.shape) 
+print("Number of samples:", len(digits.images)) 
+# 3. Flatten the images for the model input 
+n_samples = len(digits.images) 
+data = digits.images.reshape((n_samples, -1)) 
+# 4. Split into training and testing sets 
+X_train, X_test, y_train, y_test = train_test_split(data, digits.target, test_size=0.5, 
+shuffle=False) 
+# 5. Train a Support Vector Classifier (SVM) 
+clf = svm.SVC(gamma=0.001) 
+clf.fit(X_train, y_train) 
+# 6. Predict on the test set 
+predicted = clf.predict(X_test) 
+# 7. Display some predictions 
+_, axes = plt.subplots(2, 4) 
+images_and_predictions = list(zip(digits.images[n_samples // 2:], predicted)) 
+for ax, (image, prediction) in zip(axes[0, :], images_and_predictions[:4]): 
+ax.set_axis_off() 
+ax.imshow(image, cmap=plt.cm.gray_r, interpolation='nearest') 
+ax.set_title(f'Prediction: {prediction}') 
+# 8. Print classification report 
+print("Classification report:\n", metrics.classification_report(y_test, predicted)) 
+print("Confusion matrix:\n", metrics.confusion_matrix(y_test, predicted)) 
+plt.show()
