@@ -1,0 +1,25 @@
+import cv2 # Import the OpenCV library for computer vision tasks 
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 
+'haarcascade_frontalface_default.xml') # Load Haar Cascade for face 
+detection 
+cap = cv2.VideoCapture(0) # Start video capture from default webcam 
+while True: 
+ret, frame = cap.read() # Read a frame from the webcam 
+if not ret: 
+break # Break the loop if frame not captured properly gray = 
+cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) # Convert frame 
+to grayscale 
+for detection 
+faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, 
+minNeighbors=5) 
+# Detect faces in grayscale frame 
+for (x, y, w, h) in faces: 
+cv2.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 2) # Draw blue 
+rectangle 
+around each detected face 
+cv2.imshow('Face Detection', frame) # Show the frame with detection 
+in a window 
+if cv2.waitKey(1) & 0xFF == ord('q'): # Exit when 'q' key is pressed 
+break 
+cap.release() # Release the webcam 
+cv2.destroyAllWindows() # Close all OpenCV windows
