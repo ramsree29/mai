@@ -1,0 +1,16 @@
+import pandas as pd 
+from sklearn.ensemble import RandomForestRegressor 
+from sklearn.preprocessing import LabelEncoder 
+df = pd.read_csv("ipl_dataset.csv") 
+le1, le2 = LabelEncoder(), LabelEncoder() 
+df['batting_team'] = le1.fit_transform(df['batting_team']) 
+df['bowling_team'] = le2.fit_transform(df['bowling_team']) 
+X = df[['batting_team', 'bowling_team', 'over', 'cumulative_runs', 'wickets_lost']] 
+y = df['final_score'] 
+model = RandomForestRegressor().fit(X, y) 
+data = [[le1.transform([input("Batting: ")])[0], 
+le2.transform([input("Bowling: ")])[0], 
+int(input("Over: ")), 
+int(input("Runs: ")), 
+int(input("Wickets: "))]] 
+print("Predicted Score:", int(model.predict(pd.DataFrame(data, columns=X.columns))[0])) 
