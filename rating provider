@@ -1,0 +1,32 @@
+import pandas as pd 
+from textblob import TextBlob 
+# Sample customer feedback data 
+data = { 
+'feedback': [ 
+"I love this product! It works great.", 
+"This is the worst experience I've ever had.", 
+"It's okay, not what I expected.", 
+"Absolutely fantastic! Highly recommend.", 
+"Terrible service, will not return." 
+] 
+} 
+# Create a DataFrame 
+df = pd.DataFrame(data) 
+# Function to rate feedback 
+def rate_feedback(feedback): 
+analysis = TextBlob(feedback) 
+# Assign rating based on polarity 
+if analysis.sentiment.polarity > 0.5: 
+return 5 # Positive 
+elif analysis.sentiment.polarity > 0: 
+return 4 # Slightly positive 
+elif analysis.sentiment.polarity == 0: 
+return 3 # Neutral 
+elif analysis.sentiment.polarity > -0.5: 
+return 2 # Slightly negative 
+else: 
+return 1 # Negative 
+# Apply the rating function 
+df['rating'] = df['feedback'].apply(rate_feedback) 
+# Display the results 
+print(df)
