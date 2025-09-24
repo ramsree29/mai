@@ -1,0 +1,26 @@
+from sklearn.datasets import load_iris
+from sklearn.feature_selection import SelectKBest, f_classif
+import pandas as pd
+
+# Load Iris dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+feature_names = iris.feature_names
+
+# Apply SelectKBest with ANOVA F-value
+selector = SelectKBest(score_func=f_classif, k=2)
+X_selected = selector.fit_transform(X, y)
+
+# Get selected feature names
+selected_indices = selector.get_support(indices=True)
+selected_features = [feature_names[i] for i in selected_indices]
+
+# Print results
+print("Selected feature indices:", selected_indices)
+print("Selected feature names:", selected_features)
+
+# Show first 5 rows of selected features
+df_selected = pd.DataFrame(X_selected, columns=selected_features)
+print("\nSelected Features (first 5 rows):")
+print(df_selected.head())
