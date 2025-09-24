@@ -1,0 +1,37 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_moons
+from sklearn.cluster import DBSCAN
+from sklearn.preprocessing import StandardScaler
+
+# Generate sample data
+X, _ = make_moons(n_samples=300, noise=0.05, random_state=0)
+
+# Standardize features
+X = StandardScaler().fit_transform(X)
+
+# Apply DBSCAN
+dbscan = DBSCAN(eps=0.3, min_samples=5)
+labels = dbscan.fit_predict(X)
+
+# Plotting
+plt.figure(figsize=(8, 5))
+unique_labels = set(labels)
+
+for label in unique_labels:
+    label_mask = (labels == label)
+    if label == -1:
+        # Black used for noise.
+        color = 'k'
+        label_name = 'Noise'
+    else:
+        color = plt.cm.Set1(label / max(unique_labels))
+        label_name = f'Cluster {label}'
+    plt.scatter(X[label_mask, 0], X[label_mask, 1], c=color, label=label_name)
+
+plt.title('DBSCAN Clustering')
+plt.legend()
+plt.xlabel('Feature 1')
+plt.ylabel('Feature 2')
+plt.grid(True)
+plt.show()
