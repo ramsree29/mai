@@ -1,0 +1,29 @@
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+
+# Load the Iris dataset
+iris = load_iris()
+X = iris.data  # Features (sepal length, sepal width, petal length, petal width)
+y = iris.target  # Target (species)
+
+# Feature extraction: Plotting feature relationships
+
+# Scatter plot: Sepal length vs Sepal width
+plt.figure(figsize=(8, 6))
+plt.scatter(X[:, 0], X[:, 1], c=y, cmap='viridis', edgecolors='k', s=100)
+plt.title('Sepal Length vs Sepal Width')
+plt.xlabel('Sepal Length (cm)')
+plt.ylabel('Sepal Width (cm)')
+plt.colorbar(label='Species')
+plt.grid(True)
+plt.show()
+
+# Scatter plot: Petal length vs Petal width
+plt.figure(figsize=(8, 6))
+plt.scatter(X[:, 2], X[:, 3], c=y, cmap='viridis', edgecolors='k', s=100)
+plt.title('Petal Length vs Petal Width')
+plt.xlabel('Petal Length (cm)')
+plt.ylabel('Petal Width (cm)')
+plt.colorbar(label='Species')
+plt.grid(True)
+plt.show()
