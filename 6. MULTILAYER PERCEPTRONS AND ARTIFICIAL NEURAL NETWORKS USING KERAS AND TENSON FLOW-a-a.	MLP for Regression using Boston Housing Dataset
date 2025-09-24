@@ -1,0 +1,20 @@
+from tensorflow.keras.datasets import boston_housing
+from sklearn.preprocessing import StandardScaler
+
+# Load dataset
+(X_train, y_train), (X_test, y_test) = boston_housing.load_data()
+
+# Normalize features
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# Build MLP
+model = keras.Sequential([
+    layers.Dense(16, activation='relu', input_shape=(X_train.shape[1],)),
+    layers.Dense(1)  # Regression output
+])
+
+# Compile & train
+model.compile(optimizer='adam', loss='mse', metrics=['mae'])
+model.fit(X_train, y_train, epochs=30, batch_size=16, validation_data=(X_test, y_test))
