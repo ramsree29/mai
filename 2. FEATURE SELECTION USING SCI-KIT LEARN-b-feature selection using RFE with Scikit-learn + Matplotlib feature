@@ -1,0 +1,35 @@
+from sklearn.datasets import load_iris
+from sklearn.linear_model import LogisticRegression
+from sklearn.feature_selection import RFE
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Load the Iris dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+feature_names = iris.feature_names
+
+# Create the model
+model = LogisticRegression(max_iter=1000)
+
+# Apply RFE to select top 2 features
+rfe = RFE(estimator=model, n_features_to_select=2)
+rfe.fit(X, y)
+
+# Get selected features
+selected_features = [name for name, selected in zip(feature_names, rfe.support_) if selected]
+
+# Print selected features
+print("Selected Features:", selected_features)
+
+# Plot feature ranking
+ranking = rfe.ranking_
+plt.figure(figsize=(8, 5))
+plt.bar(feature_names, ranking, color='skyblue', edgecolor='k')
+plt.xlabel("Feature")
+plt.ylabel("Ranking (1 = selected)")
+plt.title("RFE Feature Ranking")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
