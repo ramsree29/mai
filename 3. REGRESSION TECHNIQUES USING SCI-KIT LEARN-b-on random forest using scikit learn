@@ -1,0 +1,30 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.ensemble import RandomForestRegressor
+
+# Create sample data
+X = np.sort(5 * np.random.rand(80, 1), axis=0)
+y = np.sin(X).ravel()
+
+# Add noise to targets
+y[::5] += 0.5 * (0.5 - np.random.rand(16))
+
+# Train the Random Forest Regressor
+model = RandomForestRegressor(n_estimators=100, random_state=42)
+model.fit(X, y)
+
+# Predict
+X_test = np.arange(0.0, 5.0, 0.01)[:, np.newaxis]
+y_pred = model.predict(X_test)
+
+# Plot the results
+plt.figure(figsize=(8, 5))
+plt.scatter(X, y, color="darkorange", label="Data", edgecolor='k')
+plt.plot(X_test, y_pred, color="navy", label="Random Forest Prediction")
+plt.xlabel("X")
+plt.ylabel("y")
+plt.title("Random Forest Regression")
+plt.legend()
+plt.grid(True)
+plt.show()
+
